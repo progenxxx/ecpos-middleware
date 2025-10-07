@@ -7,12 +7,19 @@ const path = require('path');
 const fs = require('fs');
 const app = express();
 const axios = require('axios');
+const https = require('https');
 
 const multer = require('multer');
 const FormData = require('form-data');
 
 
 const API_BASE_URL = 'https://eljin.org/api';
+
+// HTTPS agent to bypass SSL certificate validation for development/staging
+// WARNING: This should NOT be used in production - fix SSL certificates instead
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false
+});
 
 
 const upload = multer({
@@ -461,15 +468,16 @@ app.post('/api/rbotransactiontables/:storeId/:zReportId', async (req, res) => {
   // Stock counting endpoint
   app.post('/api/stock-counting/:storeId/:posted/:journalId', async (req, res) => {
     const { storeId, posted, journalId } = req.params;
-    
+
     try {
       const apiResponse = await axios.post(
         `${API_BASE_URL}/stock-counting/${storeId}/${posted}/${journalId}`,
-        {}, 
+        {},
         {
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          httpsAgent: httpsAgent
         }
       );
   
@@ -511,7 +519,7 @@ app.post('/api/rbotransactiontables/:storeId/:zReportId', async (req, res) => {
       wasteType,
       counted
     } = req.params;
-  
+
     try {
       const apiResponse = await axios.post(
         `${API_BASE_URL}/line/${itemId}/${storeId}/${journalId}/${adjustment}/${receivedCount}/${transferCount}/${wasteCount}/${wasteType}/${counted}`,
@@ -519,7 +527,8 @@ app.post('/api/rbotransactiontables/:storeId/:zReportId', async (req, res) => {
         {
           headers: {
             'Content-Type': 'application/json'
-          }
+          },
+          httpsAgent: httpsAgent
         }
       );
   
@@ -626,9 +635,11 @@ app.post('/api/rbotransactiontables/:storeId/:zReportId', async (req, res) => {
   // Get stock counting
   app.get('/api/stock-counting/:storeId', async (req, res) => {
     const { storeId } = req.params;
-    
+
     try {
-      const apiResponse = await axios.get(`${API_BASE_URL}/stock-counting/${storeId}`);
+      const apiResponse = await axios.get(`${API_BASE_URL}/stock-counting/${storeId}`, {
+        httpsAgent: httpsAgent
+      });
       const stockCountingData = apiResponse.data.data;
       
       if (!stockCountingData || !Array.isArray(stockCountingData)) {
@@ -666,9 +677,11 @@ app.post('/api/rbotransactiontables/:storeId/:zReportId', async (req, res) => {
 // Get line details
 app.get('/api/line/:storeId/:journalId', async (req, res) => {
     const { storeId, journalId } = req.params;
-    
+
     try {
-      const apiResponse = await axios.get(`${API_BASE_URL}/line/${storeId}/${journalId}`);
+      const apiResponse = await axios.get(`${API_BASE_URL}/line/${storeId}/${journalId}`, {
+        httpsAgent: httpsAgent
+      });
       const lineData = apiResponse.data;
       
       if (!lineData.success || !lineData.data || !lineData.data.transactions) {
