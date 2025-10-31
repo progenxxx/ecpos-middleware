@@ -1469,6 +1469,7 @@ app.get('/api/getStaffData/:storeId', async (req, res) => {
         };
   
         // Post transaction summary
+        console.log('Posting transaction summary:', JSON.stringify(summaryData, null, 2));
         const summaryResponse = await axios.post(
           `${API_BASE_URL}/rbotransactiontables`,
           summaryData,
@@ -1478,6 +1479,7 @@ app.get('/api/getStaffData/:storeId', async (req, res) => {
             }
           }
         );
+        console.log('Transaction summary posted successfully');
   
         // Create a set of processed record IDs to avoid duplicates
         const processedLines = new Set();
@@ -1525,7 +1527,7 @@ app.get('/api/getStaffData/:storeId', async (req, res) => {
               
               price: parseFloat(record.price || 0).toFixed(2),
               netprice: parseFloat(record.netprice || record.price || 0).toFixed(2),
-              qty: parseInt(record.qty || 1),
+              qty: parseFloat(record.qty || 1).toFixed(2),
               discamount: parseFloat(record.discamount || 0).toFixed(2),
               costamount: parseFloat(record.costamount || 0).toFixed(2),
               netamount: parseFloat(record.netamount || 0).toFixed(2),
@@ -1533,7 +1535,7 @@ app.get('/api/getStaffData/:storeId', async (req, res) => {
               
               custaccount: String(record.custaccount || 'WALK-IN'),
               store: storePrefix,
-              priceoverride: parseInt(record.priceoverride || 0),
+              priceoverride: parseFloat(record.priceoverride || 0).toFixed(2),
               paymentmethod: String(record.paymentmethod || record.paymentMethod || 'Cash'),
               staff: String(record.staff || 'Unknown'),
               
@@ -1574,6 +1576,9 @@ app.get('/api/getStaffData/:storeId', async (req, res) => {
               discofferid: String(record.discofferid || record.discountOfferId || '')
             };
   
+            // Log the data being sent
+            console.log(`Sending sales transaction line ${record.linenum}:`, JSON.stringify(salesTransData, null, 2));
+
             return axios.post(
               `${API_BASE_URL}/rbotransactionsalestrans`,
               salesTransData
@@ -1581,9 +1586,12 @@ app.get('/api/getStaffData/:storeId', async (req, res) => {
           } catch (error) {
             console.error(`Error processing record ${index + 1}:`, {
               error: error.message,
-              record: record
+              record: record,
+              salesTransData: salesTransData,
+              apiResponse: error.response ? error.response.data : null,
+              apiStatus: error.response ? error.response.status : null
             });
-            throw error; 
+            throw error;
           }
         });
   
@@ -2227,6 +2235,111 @@ app.post('/api/attendance', upload.single('photo'), async (req, res) => {
 });
 
 // Make sure uploads directory exists
+
+// ==================== FILE UPLOAD TO VERCEL BLOB ====================
+
+// Upload ECPOS files (BIR, DATABASE_BACKUPS, error_logs) to Vercel Blob
+app.post('/api/upload-files', upload.single('archive'), async (req, res) => {
+  try {
+    console.log('📤 File upload request received');
+
+    const { storeId, storeName } = req.body;
+
+    // Validate required fields
+    if (!storeId || !storeName) {
+      return res.status(422).json({
+        success: false,
+        message: 'Missing required fields',
+        errors: {
+          storeId: !storeId ? ['Store ID is required'] : undefined,
+          storeName: !storeName ? ['Store name is required'] : undefined
+        }
+      });
+    }
+
+    // Check if file was uploaded
+    if (!req.file) {
+      return res.status(422).json({
+        success: false,
+        message: 'Archive file is required'
+      });
+    }
+
+    console.log('📦 File received:', {
+      filename: req.file.originalname,
+      size: `${(req.file.size / 1024 / 1024).toFixed(2)} MB`,
+      mimetype: req.file.mimetype,
+      storeId,
+      storeName
+    });
+
+    // Import Vercel Blob SDK (requires @vercel/blob package)
+    const { put } = require('@vercel/blob');
+
+    // Generate unique filename
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const filename = `${storeName}_${storeId}_${timestamp}.zip`;
+
+    // Upload to Vercel Blob
+    console.log('☁️  Uploading to Vercel Blob...');
+    const blob = await put(filename, req.file.buffer, {
+      access: 'public',
+      addRandomSuffix: false
+    });
+
+    console.log('✅ Upload successful:', blob.url);
+
+    // Return success response
+    res.status(200).json({
+      success: true,
+      message: 'Files uploaded successfully to Vercel Blob',
+      data: {
+        url: blob.url,
+        filename: filename,
+        size: req.file.size,
+        uploadedAt: new Date().toISOString(),
+        storeId,
+        storeName
+      }
+    });
+
+  } catch (error) {
+    console.error('❌ Error uploading files:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to upload files',
+      error: error.message
+    });
+  }
+});
+
+// Get list of uploaded files (optional - for viewing history)
+app.get('/api/uploaded-files', async (req, res) => {
+  try {
+    const { list } = require('@vercel/blob');
+    const { blobs } = await list();
+
+    res.status(200).json({
+      success: true,
+      count: blobs.length,
+      files: blobs.map(blob => ({
+        url: blob.url,
+        pathname: blob.pathname,
+        size: blob.size,
+        uploadedAt: blob.uploadedAt
+      }))
+    });
+  } catch (error) {
+    console.error('Error listing files:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to list files',
+      error: error.message
+    });
+  }
+});
+
+// ==================== END FILE UPLOAD ====================
 
  const PORT = process.env.PORT || 3000;
 const HOST = '0.0.0.0';
