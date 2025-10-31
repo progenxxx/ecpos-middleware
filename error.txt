@@ -1,0 +1,316 @@
+Attempting to sync transaction 000000274 with 1 records
+2025-10-31 13:11:22.726  9276-31681 RetrofitClient          com.example.possystembw              D  --> POST https://ecpos-middleware-bay.vercel.app/api/sync-transactions
+2025-10-31 13:11:22.726  9276-31681 RetrofitClient          com.example.possystembw              D  Content-Type: application/json; charset=UTF-8
+2025-10-31 13:11:22.726  9276-31681 RetrofitClient          com.example.possystembw              D  Content-Length: 2502
+2025-10-31 13:11:22.726  9276-31681 RetrofitClient          com.example.possystembw              D  
+2025-10-31 13:11:22.726  9276-31681 RetrofitClient          com.example.possystembw              D  {
+                                                                                                      "transactionRecords": [
+                                                                                                        {
+                                                                                                          "costamount": "28.57",
+                                                                                                          "createddate": "2025-10-19 16:32:29",
+                                                                                                          "creditmemonumber": null,
+                                                                                                          "currency": "PHP",
+                                                                                                          "custaccount": "Walk-in Customer",
+                                                                                                          "custdiscamount": "0.00",
+                                                                                                          "description": "",
+                                                                                                          "discamount": "0.00",
+                                                                                                          "discofferid": "",
+                                                                                                          "giftcard": null,
+                                                                                                          "grossamount": "32.00",
+                                                                                                          "inventbatchexpdate": null,
+                                                                                                          "inventbatchid": null,
+                                                                                                          "itemgroup": "BW PASTRIES",
+                                                                                                          "itemid": "PAS-PRO-052",
+                                                                                                          "itemname": "EGG PIE",
+                                                                                                          "linediscpct": "0.00",
+                                                                                                          "linedscamount": "0.00",
+                                                                                                          "linenum": "1",
+                                                                                                          "netamount": "32.00",
+                                                                                                          "netamountnotincltax": "28.57",
+                                                                                                          "netprice": "32.00",
+                                                                                                          "paymentmethod": "Cash",
+                                                                                                          "price": "32.00",
+                                                                                                          "priceoverride": 0,
+                                                                                                          "priceunit": null,
+                                                                                                          "qty": "1",
+                                                                                                          "receiptid": "000000274",
+                                                                                                          "remarks": "",
+                                                                                                          "returnlineid": null,
+                                                                                                          "returnqty": null,
+                                                                                                          "returntransactionid": "",
+                                                                                                          "staff": "MELANIE ANDALES",
+                                                                                                          "store": "SAN-FERNANDO",
+                                                                                                          "storeKey": "000000274",
+                                                                                                          "storeSequence": "SAN-FERNANDO-000000274",
+                                                                                                          "storetaxgroup": null,
+                                                                                                          "taxamount": "3.43",
+                                                                                                          "taxexempt": null,
+                                                                                                          "taxinclinprice": "3.43",
+                                                                                                          "transactionid": "000000274",
+                                                                                                          "unit": "PCS",
+                                                                                                          "unitprice": "32.00",
+                                                                                                          "unitqty": "1.00"
+                                                                                                        }
+                                                                                                      ],
+                                                                                                      "transactionSummary": {
+                                                                                                        "card": "0.00",
+                                                                                                        "cash": "32.00",
+                                                                                                        "cashamount": "32.00",
+                                                                                                        "charge": "0.00",
+                                                                                                        "comment": "",
+                                                                                                        "costamount": "28.57",
+                                                                                                        "createddate": "2025-10-19 16:32:29",
+                                                                                                        "currency": "PHP",
+                                                                                                        "custaccount": "Walk-in Customer",
+                                                                                                        "custdiscamount": "0.00",
+                                                                                                        "discamount": "0.00",
+                                                                                                        "foodpanda": "0.00",
+                                                                                                        "gcash": "0.00",
+                                                                                                        "grabfood": "0.00",
+                                                                                                        "grossamount": "32.00",
+                                                                                                        "loyaltycard": "0.00",
+                                                                                                        "markupamount": null,
+                                                                                                        "markupdescription": null,
+                                                                                                        "netamount": "32.00",
+                                                                                                        "netamountnotincltax": "28.57",
+                                                                                                        "numberofitems": "1.0",
+                                                                                                        "partialpayment": "0.00",
+                                                                                                        "paymaya": "0.00",
+                                                                                                        "priceoverride": 0,
+                                                                                                        "receiptemail": null,
+                                                                                                        "receiptid": "000000274",
+                                                                                                        "refunddate": null,
+                                                                                                        "refundreceiptid": null,
+                                                                                                        "representation": "0.00",
+                                                                                                        "returnedby": null,
+                                                                                                        "staff": "MELANIE ANDALES",
+                                                                                                        "store": "SAN-FERNANDO",
+                                                                                                        "storeKey": "000000274",
+                                                                                                        "storeSequence": "SAN-FERNANDO-000000274",
+                                                                                                        "taxinclinprice": "3.43",
+                                                                                                        "totaldiscamount": "0.00",
+                                                                                                        "transactionid": "000000274",
+                                                                                                        "transactionstatus": 1,
+                                                                                                        "type": 1,
+                                                                                                        "window_number": 1,
+                                                                                                        "zreportid": null
+                                                                                                      }
+                                                                                                    }
+2025-10-31 13:11:22.726  9276-31681 RetrofitClient          com.example.possystembw              D  --> END POST (2502-byte body)
+2025-10-31 13:11:22.727  9276-31681 RetrofitClient          com.example.possystembw              D  Request URL: https://ecpos-middleware-bay.vercel.app/api/sync-transactions
+2025-10-31 13:11:22.727  9276-31681 RetrofitClient          com.example.possystembw              D  Request Headers: Content-Type: application/json
+2025-10-31 13:11:23.041  9276-31678 RetrofitClient          com.example.possystembw              E  API 500 ERROR: {"error":"Failed to sync with API","details":"Failed to create sales transaction.","status":500}
+2025-10-31 13:11:23.041  9276-31678 RetrofitClient          com.example.possystembw              D  <-- 500 https://ecpos-middleware-bay.vercel.app/api/sync-transactions (923ms)
+2025-10-31 13:11:23.041  9276-31678 RetrofitClient          com.example.possystembw              D  access-control-allow-headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
+2025-10-31 13:11:23.041  9276-31678 RetrofitClient          com.example.possystembw              D  access-control-allow-methods: GET, POST, PUT, DELETE, OPTIONS, PATCH
+2025-10-31 13:11:23.042  9276-31678 RetrofitClient          com.example.possystembw              D  access-control-allow-origin: *
+2025-10-31 13:11:23.042  9276-31678 RetrofitClient          com.example.possystembw              D  cache-control: public, max-age=0, must-revalidate
+2025-10-31 13:11:23.042  9276-31678 RetrofitClient          com.example.possystembw              D  content-type: application/json; charset=utf-8
+2025-10-31 13:11:23.042  9276-31678 RetrofitClient          com.example.possystembw              D  date: Fri, 31 Oct 2025 05:11:24 GMT
+2025-10-31 13:11:23.042  9276-31678 RetrofitClient          com.example.possystembw              D  etag: W/"60-QdZd5lOTMPT999cTJOuO/NrN0uQ"
+2025-10-31 13:11:23.042  9276-31678 RetrofitClient          com.example.possystembw              D  server: Vercel
+2025-10-31 13:11:23.042  9276-31678 RetrofitClient          com.example.possystembw              D  strict-transport-security: max-age=63072000; includeSubDomains; preload
+2025-10-31 13:11:23.042  9276-31678 RetrofitClient          com.example.possystembw              D  x-powered-by: Express
+2025-10-31 13:11:23.042  9276-31678 RetrofitClient          com.example.possystembw              D  x-vercel-cache: MISS
+2025-10-31 13:11:23.042  9276-31678 RetrofitClient          com.example.possystembw              D  x-vercel-id: hkg1::iad1::nbnzt-1761887483361-5ba9cf0c8b6c
+2025-10-31 13:11:23.042  9276-31678 RetrofitClient          com.example.possystembw              D  content-length: 96
+2025-10-31 13:11:23.042  9276-31678 RetrofitClient          com.example.possystembw              D  
+2025-10-31 13:11:23.042  9276-31678 RetrofitClient          com.example.possystembw              D  {"error":"Failed to sync with API","details":"Failed to create sales transaction.","status":500}
+2025-10-31 13:11:23.042  9276-31678 RetrofitClient          com.example.possystembw              D  <-- END HTTP (96-byte body)
+2025-10-31 13:11:23.044  9276-31675 API_ERROR               com.example.possystembw              E  Error code: 500, Body: {"error":"Failed to sync with API","details":"Failed to create sales transaction.","status":500}
+2025-10-31 13:11:23.058  9276-31674 API_DEBUG               com.example.possystembw              D  Syncing transaction 000000528 - Request JSON: {
+                                                                                                      "transactionRecords": [
+                                                                                                        {
+                                                                                                          "costamount": "70.54",
+                                                                                                          "createddate": "2025-10-24 11:43:39",
+                                                                                                          "currency": "PHP",
+                                                                                                          "custaccount": "Walk-in Customer",
+                                                                                                          "custdiscamount": "0.00",
+                                                                                                          "description": "",
+                                                                                                          "discamount": "0.00",
+                                                                                                          "discofferid": "",
+                                                                                                          "grossamount": "79.00",
+                                                                                                          "itemgroup": "BW BREADS",
+                                                                                                          "itemid": "BRE-PRO-959",
+                                                                                                          "itemname": "CINNAMON ROLL",
+                                                                                                          "linediscpct": "0.00",
+                                                                                                          "linedscamount": "0.00",
+                                                                                                          "linenum": "1",
+                                                                                                          "netamount": "79.00",
+                                                                                                          "netamountnotincltax": "70.54",
+                                                                                                          "netprice": "79.00",
+                                                                                                          "paymentmethod": "Cash",
+                                                                                                          "price": "79.00",
+                                                                                                          "priceoverride": 0,
+                                                                                                          "qty": "1",
+                                                                                                          "receiptid": "000000528",
+                                                                                                          "remarks": "",
+                                                                                                          "returntransactionid": "",
+                                                                                                          "staff": "MELANIE ANDALES",
+                                                                                                          "store": "SAN-FERNANDO",
+                                                                                                          "storeKey": "000000528",
+                                                                                                          "storeSequence": "SAN-FERNANDO-000000528",
+                                                                                                          "taxamount": "8.46",
+                                                                                                          "taxinclinprice": "8.46",
+                                                                                                          "transactionid": "000000528",
+                                                                                                          "unit": "PCS",
+                                                                                                          "unitprice": "79.00",
+                                                                                                          "unitqty": "1.00"
+                                                                                                        }
+                                                                                                      ],
+                                                                                                      "transactionSummary": {
+                                                                                                        "card": "0.00",
+                                                                                                        "cash": "79.00",
+                                                                                                        "cashamount": "79.00",
+                                                                                                        "charge": "0.00",
+                                                                                                        "comment": "",
+                                                                                                        "costamount": "70.54",
+                                                                                                        "createddate": "2025-10-24 11:43:39",
+                                                                                                        "currency": "PHP",
+                                                                                                        "custaccount": "Walk-in Customer",
+                                                                                                        "custdiscamount": "0.00",
+                                                                                                        "discamount": "0.00",
+                                                                                                        "foodpanda": "0.00",
+                                                                                                        "gcash": "0.00",
+                                                                                                        "grabfood": "0.00",
+                                                                                                        "grossamount": "79.00",
+                                                                                                        "loyaltycard": "0.00",
+                                                                                                        "netamount": "79.00",
+                                                                                                        "netamountnotincltax": "70.54",
+                                                                                                        "numberofitems": "1.0",
+                                                                                                        "partialpayment": "0.00",
+                                                                                                        "paymaya": "0.00",
+                                                                                                        "priceoverride": 0,
+                                                                                                        "receiptid": "000000528",
+                                                                                                        "representation": "0.00",
+                                                                                                        "staff": "MELANIE ANDALES",
+                                                                                                        "store": "SAN-FERNANDO",
+                                                                                                        "storeKey": "000000528",
+                                                                                                        "storeSequence": "SAN-FERNANDO-000000528",
+                                                                                                        "taxinclinprice": "8.46",
+                                                                                                        "totaldiscamount": "0.00",
+                                                                                                        "transactionid": "000000528",
+                                                                                                        "transactionstatus": 1,
+                                                                                                        "type": 1,
+                                                                                                        "window_number": 1
+                                                                                                      }
+                                                                                                    }
+2025-10-31 13:11:23.070  9276-31678 RetrofitClient          com.example.possystembw              D  --> POST https://ecpos-middleware-bay.vercel.app/api/sync-transactions
+2025-10-31 13:11:23.071  9276-31678 RetrofitClient          com.example.possystembw              D  Content-Type: application/json; charset=UTF-8
+2025-10-31 13:11:23.071  9276-31678 RetrofitClient          com.example.possystembw              D  Content-Length: 2506
+2025-10-31 13:11:23.071  9276-31678 RetrofitClient          com.example.possystembw              D  
+2025-10-31 13:11:23.071  9276-31678 RetrofitClient          com.example.possystembw              D  {
+                                                                                                      "transactionRecords": [
+                                                                                                        {
+                                                                                                          "costamount": "70.54",
+                                                                                                          "createddate": "2025-10-24 11:43:39",
+                                                                                                          "creditmemonumber": null,
+                                                                                                          "currency": "PHP",
+                                                                                                          "custaccount": "Walk-in Customer",
+                                                                                                          "custdiscamount": "0.00",
+                                                                                                          "description": "",
+                                                                                                          "discamount": "0.00",
+                                                                                                          "discofferid": "",
+                                                                                                          "giftcard": null,
+                                                                                                          "grossamount": "79.00",
+                                                                                                          "inventbatchexpdate": null,
+                                                                                                          "inventbatchid": null,
+                                                                                                          "itemgroup": "BW BREADS",
+                                                                                                          "itemid": "BRE-PRO-959",
+                                                                                                          "itemname": "CINNAMON ROLL",
+                                                                                                          "linediscpct": "0.00",
+                                                                                                          "linedscamount": "0.00",
+                                                                                                          "linenum": "1",
+                                                                                                          "netamount": "79.00",
+                                                                                                          "netamountnotincltax": "70.54",
+                                                                                                          "netprice": "79.00",
+                                                                                                          "paymentmethod": "Cash",
+                                                                                                          "price": "79.00",
+                                                                                                          "priceoverride": 0,
+                                                                                                          "priceunit": null,
+                                                                                                          "qty": "1",
+                                                                                                          "receiptid": "000000528",
+                                                                                                          "remarks": "",
+                                                                                                          "returnlineid": null,
+                                                                                                          "returnqty": null,
+                                                                                                          "returntransactionid": "",
+                                                                                                          "staff": "MELANIE ANDALES",
+                                                                                                          "store": "SAN-FERNANDO",
+                                                                                                          "storeKey": "000000528",
+                                                                                                          "storeSequence": "SAN-FERNANDO-000000528",
+                                                                                                          "storetaxgroup": null,
+                                                                                                          "taxamount": "8.46",
+                                                                                                          "taxexempt": null,
+                                                                                                          "taxinclinprice": "8.46",
+                                                                                                          "transactionid": "000000528",
+                                                                                                          "unit": "PCS",
+                                                                                                          "unitprice": "79.00",
+                                                                                                          "unitqty": "1.00"
+                                                                                                        }
+                                                                                                      ],
+                                                                                                      "transactionSummary": {
+                                                                                                        "card": "0.00",
+                                                                                                        "cash": "79.00",
+                                                                                                        "cashamount": "79.00",
+                                                                                                        "charge": "0.00",
+                                                                                                        "comment": "",
+                                                                                                        "costamount": "70.54",
+                                                                                                        "createddate": "2025-10-24 11:43:39",
+                                                                                                        "currency": "PHP",
+                                                                                                        "custaccount": "Walk-in Customer",
+                                                                                                        "custdiscamount": "0.00",
+                                                                                                        "discamount": "0.00",
+                                                                                                        "foodpanda": "0.00",
+                                                                                                        "gcash": "0.00",
+                                                                                                        "grabfood": "0.00",
+                                                                                                        "grossamount": "79.00",
+                                                                                                        "loyaltycard": "0.00",
+                                                                                                        "markupamount": null,
+                                                                                                        "markupdescription": null,
+                                                                                                        "netamount": "79.00",
+                                                                                                        "netamountnotincltax": "70.54",
+                                                                                                        "numberofitems": "1.0",
+                                                                                                        "partialpayment": "0.00",
+                                                                                                        "paymaya": "0.00",
+                                                                                                        "priceoverride": 0,
+                                                                                                        "receiptemail": null,
+                                                                                                        "receiptid": "000000528",
+                                                                                                        "refunddate": null,
+                                                                                                        "refundreceiptid": null,
+                                                                                                        "representation": "0.00",
+                                                                                                        "returnedby": null,
+                                                                                                        "staff": "MELANIE ANDALES",
+                                                                                                        "store": "SAN-FERNANDO",
+                                                                                                        "storeKey": "000000528",
+                                                                                                        "storeSequence": "SAN-FERNANDO-000000528",
+                                                                                                        "taxinclinprice": "8.46",
+                                                                                                        "totaldiscamount": "0.00",
+                                                                                                        "transactionid": "000000528",
+                                                                                                        "transactionstatus": 1,
+                                                                                                        "type": 1,
+                                                                                                        "window_number": 1,
+                                                                                                        "zreportid": null
+                                                                                                      }
+                                                                                                    }
+2025-10-31 13:11:23.071  9276-31678 RetrofitClient          com.example.possystembw              D  --> END POST (2506-byte body)
+2025-10-31 13:11:23.071  9276-31678 RetrofitClient          com.example.possystembw              D  Request URL: https://ecpos-middleware-bay.vercel.app/api/sync-transactions
+2025-10-31 13:11:23.072  9276-31678 RetrofitClient          com.example.possystembw              D  Request Headers: Content-Type: application/json
+2025-10-31 13:11:23.714  9276-31681 RetrofitClient          com.example.possystembw              E  API 500 ERROR: {"error":"Failed to sync with API","details":"Failed to create sales transaction.","status":500}
+2025-10-31 13:11:23.714  9276-31681 RetrofitClient          com.example.possystembw              D  <-- 500 https://ecpos-middleware-bay.vercel.app/api/sync-transactions (987ms)
+2025-10-31 13:11:23.715  9276-31681 RetrofitClient          com.example.possystembw              D  access-control-allow-headers: Origin, X-Requested-With, Content-Type, Accept, Authorization
+2025-10-31 13:11:23.715  9276-31681 RetrofitClient          com.example.possystembw              D  access-control-allow-methods: GET, POST, PUT, DELETE, OPTIONS, PATCH
+2025-10-31 13:11:23.715  9276-31681 RetrofitClient          com.example.possystembw              D  access-control-allow-origin: *
+2025-10-31 13:11:23.715  9276-31681 RetrofitClient          com.example.possystembw              D  cache-control: public, max-age=0, must-revalidate
+2025-10-31 13:11:23.715  9276-31681 RetrofitClient          com.example.possystembw              D  content-type: application/json; charset=utf-8
+2025-10-31 13:11:23.715  9276-31681 RetrofitClient          com.example.possystembw              D  date: Fri, 31 Oct 2025 05:11:24 GMT
+2025-10-31 13:11:23.715  9276-31681 RetrofitClient          com.example.possystembw              D  etag: W/"60-QdZd5lOTMPT999cTJOuO/NrN0uQ"
+2025-10-31 13:11:23.715  9276-31681 RetrofitClient          com.example.possystembw              D  server: Vercel
+2025-10-31 13:11:23.715  9276-31681 RetrofitClient          com.example.possystembw              D  strict-transport-security: max-age=63072000; includeSubDomains; preload
+2025-10-31 13:11:23.715  9276-31681 RetrofitClient          com.example.possystembw              D  x-powered-by: Express
+2025-10-31 13:11:23.715  9276-31681 RetrofitClient          com.example.possystembw              D  x-vercel-cache: MISS
+2025-10-31 13:11:23.715  9276-31681 RetrofitClient          com.example.possystembw              D  x-vercel-id: hkg1::iad1::7wwz6-1761887483978-16dc9a364f0b
+2025-10-31 13:11:23.715  9276-31681 RetrofitClient          com.example.possystembw              D  content-length: 96
+2025-10-31 13:11:23.715  9276-31681 RetrofitClient          com.example.possystembw              D  
+2025-10-31 13:11:23.716  9276-31681 RetrofitClient          com.example.possystembw              D  {"error":"Failed to sync with API","details":"Failed to create sales transaction.","status":500}
+2025-10-31 13:11:23.716  9276-31681 RetrofitClient          com.example.possystembw              D  <-- END HTTP (96-byte body)
+2025-10-31 13:11:23.716  9276-9276  TransactionRepository   com.example.possystembw              E  Failed to sync transaction 000000274: 
