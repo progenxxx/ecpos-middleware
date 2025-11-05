@@ -2128,7 +2128,48 @@ app.get('/api/windowtable/get-all-tables', async (req, res) => {
     });
   }
  });
- 
+
+ // License validation endpoint - proxy to LMS
+ app.post('/api/license/validate', async (req, res) => {
+  try {
+    const { email, license_number, type } = req.body;
+
+    if (!email && !license_number) {
+      return res.status(400).json({
+        valid: false,
+        error: 'Email or license number is required'
+      });
+    }
+
+    console.log('Validating license:', { email, license_number, type });
+
+    // Call LMS validation endpoint
+    const lmsUrl = 'https://lms-one-weld-69.vercel.app/api/licenses/validate';
+    const response = await axios.post(lmsUrl, {
+      email,
+      license_number,
+      type: type || 'ECPOS APP'
+    });
+
+    console.log('LMS response:', response.data);
+
+    res.status(200).json(response.data);
+  } catch (error) {
+    console.error('License validation error:', error);
+
+    // If LMS is down or returns error, check the error response
+    if (error.response) {
+      res.status(error.response.status).json(error.response.data);
+    } else {
+      res.status(500).json({
+        valid: false,
+        error: 'Failed to validate license',
+        message: error.message
+      });
+    }
+  }
+ });
+
  // Server time endpoint
  app.get('/api/server-time', (req, res) => {
   try {
@@ -2309,6 +2350,86 @@ app.post('/api/upload-files', upload.single('archive'), async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Failed to upload files',
+      error: error.message
+    });
+  }
+});
+
+// Database backup endpoint for version updates
+app.post('/api/backup-database', upload.single('database'), async (req, res) => {
+  try {
+    console.log('💾 Database backup request received');
+
+    const { storeName, storeId, versionFrom, versionTo } = req.body;
+
+    // Validate required fields
+    if (!storeName || !storeId) {
+      return res.status(422).json({
+        success: false,
+        message: 'Missing required fields',
+        errors: {
+          storeName: !storeName ? ['Store name is required'] : undefined,
+          storeId: !storeId ? ['Store ID is required'] : undefined
+        }
+      });
+    }
+
+    // Check if file was uploaded
+    if (!req.file) {
+      return res.status(422).json({
+        success: false,
+        message: 'Database file is required'
+      });
+    }
+
+    console.log('💾 Database received:', {
+      filename: req.file.originalname,
+      size: `${(req.file.size / 1024 / 1024).toFixed(2)} MB`,
+      mimetype: req.file.mimetype,
+      storeName,
+      storeId,
+      versionFrom,
+      versionTo
+    });
+
+    // Import Vercel Blob SDK
+    const { put } = require('@vercel/blob');
+
+    // Generate unique filename with version info
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const versionInfo = versionFrom && versionTo ? `_v${versionFrom}-to-v${versionTo}` : '';
+    const filename = `backups/${storeName}_${storeId}${versionInfo}_${timestamp}.db`;
+
+    // Upload to Vercel Blob
+    console.log('☁️  Uploading database backup to Vercel Blob...');
+    const blob = await put(filename, req.file.buffer, {
+      access: 'public',
+      addRandomSuffix: false
+    });
+
+    console.log('✅ Database backup successful:', blob.url);
+
+    // Return success response
+    res.status(200).json({
+      success: true,
+      message: 'Database backup uploaded successfully to Vercel Blob',
+      data: {
+        url: blob.url,
+        filename: filename,
+        size: req.file.size,
+        uploadedAt: new Date().toISOString(),
+        storeName,
+        storeId,
+        versionFrom,
+        versionTo
+      }
+    });
+
+  } catch (error) {
+    console.error('❌ Error backing up database:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Failed to backup database',
       error: error.message
     });
   }
