@@ -505,7 +505,144 @@ app.post('/api/rbotransactiontables/:storeId/:zReportId', async (req, res) => {
       });
     }
   });
-  
+
+  // Batch count POST endpoint - receives complete batch from app and posts to master site
+  app.post('/api/stock-counting/batch/post', async (req, res) => {
+    try {
+      const { storeid, localjournalid, description, items } = req.body;
+
+      console.log('Middleware: Receiving batch post request', {
+        storeId: storeid,
+        localJournalId: localjournalid,
+        itemCount: items ? items.length : 0
+      });
+
+      // Forward request to master site
+      const apiResponse = await axios.post(
+        `${API_BASE_URL}/stock-counting/batch/post`,
+        {
+          storeId: storeid,
+          localJournalId: localjournalid,
+          description: description,
+          items: items
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          httpsAgent: httpsAgent,
+          timeout: 60000 // 60 second timeout for large batches
+        }
+      );
+
+      console.log('Middleware: Batch posted successfully to master site', {
+        success: apiResponse.data.success,
+        journalId: apiResponse.data.journalId
+      });
+
+      res.status(200).json(apiResponse.data);
+    } catch (error) {
+      console.error('Middleware: Error posting batch to master site:', {
+        error: error.message,
+        response: error.response?.data
+      });
+
+      const statusCode = error.response ? error.response.status : 500;
+      res.status(statusCode).json({
+        success: false,
+        message: error.response?.data?.message || 'Failed to post batch to master site',
+        error: error.message
+      });
+    }
+  });
+
+  // Get posted batches for a store (debugging/monitoring)
+  app.get('/api/stock-counting/posted-batches/:storeId', async (req, res) => {
+    try {
+      const { storeId } = req.params;
+      const limit = req.query.limit || 50;
+      const offset = req.query.offset || 0;
+
+      console.log('Middleware: Fetching posted batches', { storeId, limit, offset });
+
+      const apiResponse = await axios.get(
+        `${API_BASE_URL}/stock-counting/posted-batches/${storeId}`,
+        {
+          params: { limit, offset },
+          httpsAgent: httpsAgent
+        }
+      );
+
+      res.status(200).json(apiResponse.data);
+    } catch (error) {
+      console.error('Middleware: Error fetching posted batches:', error.message);
+      const statusCode = error.response ? error.response.status : 500;
+      res.status(statusCode).json({
+        success: false,
+        message: error.response?.data?.message || 'Failed to fetch posted batches',
+        error: error.message
+      });
+    }
+  });
+
+  // Get batch items for a specific journal (debugging/monitoring)
+  app.get('/api/stock-counting/batch-items/:journalId', async (req, res) => {
+    try {
+      const { journalId } = req.params;
+      const limit = req.query.limit || 100;
+      const offset = req.query.offset || 0;
+
+      console.log('Middleware: Fetching batch items', { journalId, limit, offset });
+
+      const apiResponse = await axios.get(
+        `${API_BASE_URL}/stock-counting/batch-items/${journalId}`,
+        {
+          params: { limit, offset },
+          httpsAgent: httpsAgent
+        }
+      );
+
+      res.status(200).json(apiResponse.data);
+    } catch (error) {
+      console.error('Middleware: Error fetching batch items:', error.message);
+      const statusCode = error.response ? error.response.status : 500;
+      res.status(statusCode).json({
+        success: false,
+        message: error.response?.data?.message || 'Failed to fetch batch items',
+        error: error.message
+      });
+    }
+  });
+
+  // Get batch statistics for a store (debugging/monitoring)
+  app.get('/api/stock-counting/batch-stats/:storeId', async (req, res) => {
+    try {
+      const { storeId } = req.params;
+      const dateFrom = req.query.date_from;
+      const dateTo = req.query.date_to;
+
+      console.log('Middleware: Fetching batch stats', { storeId, dateFrom, dateTo });
+
+      const apiResponse = await axios.get(
+        `${API_BASE_URL}/stock-counting/batch-stats/${storeId}`,
+        {
+          params: { date_from: dateFrom, date_to: dateTo },
+          httpsAgent: httpsAgent
+        }
+      );
+
+      res.status(200).json(apiResponse.data);
+    } catch (error) {
+      console.error('Middleware: Error fetching batch stats:', error.message);
+      const statusCode = error.response ? error.response.status : 500;
+      res.status(statusCode).json({
+        success: false,
+        message: error.response?.data?.message || 'Failed to fetch batch stats',
+        error: error.message
+      });
+    }
+  });
+
   // Line details API endpoint
   app.post('/api/line/:itemId/:storeId/:journalId/:adjustment/:receivedCount/:transferCount/:wasteCount/:wasteType/:counted', async (req, res) => {
     const {
