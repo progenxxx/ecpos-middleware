@@ -512,17 +512,27 @@ app.post('/api/rbotransactiontables/:storeId/:zReportId', async (req, res) => {
       const { storeid, localjournalid, description, items } = req.body;
 
       console.log('Middleware: Receiving batch post request', {
-        storeId: storeid,
-        localJournalId: localjournalid,
-        itemCount: items ? items.length : 0
+        storeid: storeid,
+        localjournalid: localjournalid,
+        itemCount: items ? items.length : 0,
+        fullBody: req.body
       });
 
-      // Forward request to master site
+      // Validate required fields
+      if (!storeid) {
+        return res.status(400).json({
+          success: false,
+          message: 'Store ID is required',
+          error: 'storeid field is missing from request'
+        });
+      }
+
+      // Forward request to master site (keep lowercase keys)
       const apiResponse = await axios.post(
         `${API_BASE_URL}/stock-counting/batch/post`,
         {
-          storeId: storeid,
-          localJournalId: localjournalid,
+          storeid: storeid,
+          localjournalid: localjournalid,
           description: description,
           items: items
         },
