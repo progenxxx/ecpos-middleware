@@ -14,6 +14,7 @@ const FormData = require('form-data');
 
 
 const API_BASE_URL = 'https://eljin.org/api';
+const MASTER_SITE = 'https://ecticketph.com';
 
 // HTTPS agent to bypass SSL certificate validation for development/staging
 // WARNING: This should NOT be used in production - fix SSL certificates instead
@@ -509,8 +510,8 @@ app.post('/api/rbotransactiontables/:storeId/:zReportId', async (req, res) => {
   app.get('/api/stock-counting/items/:storeId', async (req, res) => {
     try {
       const { storeId } = req.params;
-      const upstreamUrl = `https://ecticketph.com/api/stock-counting/items/${encodeURIComponent(storeId)}`;
-      const apiResponse = await axios.get(upstreamUrl, { timeout: 60000 });
+      const upstreamUrl = `${MASTER_SITE}/api/stock-counting/items/${encodeURIComponent(storeId)}`;
+      const apiResponse = await axios.get(upstreamUrl, { timeout: 60000, httpsAgent });
       res.status(apiResponse.status).send(apiResponse.data);
     } catch (error) {
       const statusCode = error.response ? error.response.status : 500;
@@ -521,10 +522,11 @@ app.post('/api/rbotransactiontables/:storeId/:zReportId', async (req, res) => {
   app.post('/api/stock-counting/items/new/:storeId', async (req, res) => {
     try {
       const { storeId } = req.params;
-      const upstreamUrl = `https://ecticketph.com/api/stock-counting/items/new/${encodeURIComponent(storeId)}`;
+      const upstreamUrl = `${MASTER_SITE}/api/stock-counting/items/new/${encodeURIComponent(storeId)}`;
       const apiResponse = await axios.post(upstreamUrl, req.body, {
         headers: { 'Content-Type': 'application/json' },
-        timeout: 60000
+        timeout: 60000,
+        httpsAgent
       });
       res.status(apiResponse.status).send(apiResponse.data);
     } catch (error) {
@@ -556,7 +558,7 @@ app.post('/api/rbotransactiontables/:storeId/:zReportId', async (req, res) => {
 
       // Forward request to master site (keep lowercase keys)
       const apiResponse = await axios.post(
-        `${API_BASE_URL}/stock-counting/batch/post`,
+        `${MASTER_SITE}/api/stock-counting/batch/post`,
         {
           storeid: storeid,
           localjournalid: localjournalid,
