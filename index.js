@@ -506,6 +506,33 @@ app.post('/api/rbotransactiontables/:storeId/:zReportId', async (req, res) => {
     }
   });
 
+  app.get('/api/stock-counting/items/:storeId', async (req, res) => {
+    try {
+      const { storeId } = req.params;
+      const upstreamUrl = `https://ecticketph.com/api/stock-counting/items/${encodeURIComponent(storeId)}`;
+      const apiResponse = await axios.get(upstreamUrl, { timeout: 60000 });
+      res.status(apiResponse.status).send(apiResponse.data);
+    } catch (error) {
+      const statusCode = error.response ? error.response.status : 500;
+      res.status(statusCode).json({ success: false, message: error.message, details: error.response?.data });
+    }
+  });
+
+  app.post('/api/stock-counting/items/new/:storeId', async (req, res) => {
+    try {
+      const { storeId } = req.params;
+      const upstreamUrl = `https://ecticketph.com/api/stock-counting/items/new/${encodeURIComponent(storeId)}`;
+      const apiResponse = await axios.post(upstreamUrl, req.body, {
+        headers: { 'Content-Type': 'application/json' },
+        timeout: 60000
+      });
+      res.status(apiResponse.status).send(apiResponse.data);
+    } catch (error) {
+      const statusCode = error.response ? error.response.status : 500;
+      res.status(statusCode).json({ success: false, message: error.message, details: error.response?.data });
+    }
+  });
+
   // Batch count POST endpoint - receives complete batch from app and posts to master site
   app.post('/api/stock-counting/batch/post', async (req, res) => {
     try {
