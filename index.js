@@ -14,7 +14,7 @@ const FormData = require('form-data');
 
 
 const API_BASE_URL = 'https://eljin.org/api';
-const MASTER_SITE = 'https://ecticketph.com';
+const MASTER_SITE = 'https://eljin.org';
 
 // HTTPS agent to bypass SSL certificate validation for development/staging
 // WARNING: This should NOT be used in production - fix SSL certificates instead
