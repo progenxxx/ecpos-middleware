@@ -507,6 +507,7 @@ app.post('/api/rbotransactiontables/:storeId/:zReportId', async (req, res) => {
     }
   });
 
+  // Stock counting items endpoint - fetches all items from master site
   app.get('/api/stock-counting/items/:storeId', async (req, res) => {
     try {
       const { storeId } = req.params;
