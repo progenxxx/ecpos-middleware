@@ -596,6 +596,65 @@ app.post('/api/rbotransactiontables/:storeId/:zReportId', async (req, res) => {
     }
   });
 
+  // Upload failed batch to Vercel Blob storage
+  app.post('/api/upload-failed-batch', async (req, res) => {
+    try {
+      const batchData = req.body;
+
+      console.log('📤 Failed batch upload request received', {
+        storeId: batchData.storeId,
+        localJournalId: batchData.localJournalId,
+        itemCount: batchData.items ? batchData.items.length : 0
+      });
+
+      // Validate required fields
+      if (!batchData.localJournalId) {
+        return res.status(400).json({
+          success: false,
+          message: 'Local Journal ID is required',
+          error: 'localJournalId field is missing from request'
+        });
+      }
+
+      // Import Vercel Blob SDK
+      const { put } = require('@vercel/blob');
+
+      // Create filename with timestamp
+      const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+      const filename = `failed-batches/${batchData.storeId}/${batchData.localJournalId}_${timestamp}.json`;
+
+      // Convert batch data to JSON string
+      const jsonData = JSON.stringify(batchData, null, 2);
+
+      // Upload to Vercel Blob
+      console.log('☁️  Uploading failed batch to Vercel Blob...');
+      const blob = await put(filename, jsonData, {
+        access: 'public',
+        contentType: 'application/json'
+      });
+
+      console.log('✅ Failed batch uploaded successfully:', blob.url);
+
+      res.status(200).json({
+        success: true,
+        message: 'Failed batch uploaded successfully to Vercel Blob',
+        data: {
+          url: blob.url,
+          filename: filename,
+          localJournalId: batchData.localJournalId,
+          uploadedAt: new Date().toISOString()
+        }
+      });
+    } catch (error) {
+      console.error('❌ Error uploading failed batch:', error);
+      res.status(500).json({
+        success: false,
+        message: 'Failed to upload failed batch',
+        error: error.message
+      });
+    }
+  });
+
   // Get posted batches for a store (debugging/monitoring)
   app.get('/api/stock-counting/posted-batches/:storeId', async (req, res) => {
     try {
