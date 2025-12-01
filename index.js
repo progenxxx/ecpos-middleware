@@ -1011,19 +1011,22 @@ app.post('/api/getdata/:storeId/:getsummary/:getdetails', async (req, res) => {
   // Backend Sales Report endpoint
   app.post('/api/backend-sales-report', async (req, res) => {
     try {
+      console.log('Backend Report Request:', req.body);
       const apiResponse = await axios.post(
         `${API_BASE_URL}/backend-sales-report`,
         req.body,
         { httpsAgent }
       );
 
+      console.log('Backend Report Response:', apiResponse.data);
       res.status(200).json(apiResponse.data);
     } catch (error) {
       console.error('Error fetching backend sales report:', error.message);
+      console.error('Error response:', error.response?.data);
       res.status(500).json({
         success: false,
         error: 'Failed to fetch backend sales report',
-        details: error.message
+        details: error.response?.data || error.message
       });
     }
   });
