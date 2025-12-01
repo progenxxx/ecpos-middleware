@@ -1007,7 +1007,27 @@ app.post('/api/getdata/:storeId/:getsummary/:getdetails', async (req, res) => {
       });
     }
   });
-  
+
+  // Backend Sales Report endpoint
+  app.post('/api/backend-sales-report', async (req, res) => {
+    try {
+      const apiResponse = await axios.post(
+        `${API_BASE_URL}/backend-sales-report`,
+        req.body,
+        { httpsAgent }
+      );
+
+      res.status(200).json(apiResponse.data);
+    } catch (error) {
+      console.error('Error fetching backend sales report:', error.message);
+      res.status(500).json({
+        success: false,
+        error: 'Failed to fetch backend sales report',
+        details: error.message
+      });
+    }
+  });
+
   // Loyalty cards endpoint
   app.get('/api/loyalty-cards', async (req, res) => {
     try {
